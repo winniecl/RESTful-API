@@ -9,8 +9,8 @@ app.listen(PORT, function () {
 });
 
 const { categories } = require("./handlers/categories");
-const { db } = require("./utils/admin");
-const { firebase } = require("./utils/firebase");
+const { db, admin } = require("./utils/admin");
+//const { firebase } = require("./utils/firebase");
 app.get("/categories", categories);
 const catData = {
   name: "Hello",
@@ -34,6 +34,13 @@ const promotion = {
 };
 const addAPromotion = async (path, promotion) => {
   const category = db.doc(path);
+  const subCategory = await category.collection(promotion.name).get();
+  if (promotion.subCategoryCount === 0 && subCategory.empty) {
+    console.log("yes");
+    category.update({
+      subCategoryCount: admin.firestore.FieldValue.increment(1),
+    });
+  } else console.log("no");
   const catID = await category
     .get()
     .then((doc) => doc.data().parentPromotionCategoryId);
@@ -46,13 +53,11 @@ const addAPromotion = async (path, promotion) => {
         promotionCategoryId: catID,
       });
     });
-  //   if (promotion.subCategoryCount === 0) {
-  //     console.log("yes");
-  //     category.update({
-  //       subCategoryCount: firebase.firestore.FieldValue.increment(1),
-  //     });
-  //   }
 };
-addParent("Editor’s Favorite Housewares", catData).then((id) => {
-  addAPromotion("Editor’s Favorite Housewares/" + id, promotion);
-});
+// addParent("Editor’s Favorite Housewares", catData).then((id) => {
+//   addAPromotion("Editor’s Favorite Housewares/" + id, promotion);
+// });
+addAPromotion(
+  "Editor’s Favorite Housewares/" + "WdKlnHMo7GQ6xrSijTD4",
+  promotion
+);
