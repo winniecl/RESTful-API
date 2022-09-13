@@ -1,8 +1,6 @@
 var express = require("express");
 var app = express();
 const PORT = process.env.PORT || 5050;
-const { categories } = require("./handlers/categories");
-const { db, admin } = require("./utils/admin");
 const { addCategory } = require("./handlers/addCategory");
 const { listCategories } = require("./handlers/listCategories");
 const { addPromotionData } = require("./handlers/addPromotion");
@@ -16,7 +14,7 @@ app.get("/", (req, res) => {
 app.listen(PORT, function () {
   console.log(`Demo project at: ${PORT}!`);
 });
-// app.get("/categories", categories);
+
 // API A: Retrieve a list of promotion categories
 app.get("/categories/list", listCategories);
 // API B: Retrieve promotion details
@@ -25,8 +23,3 @@ app.get("/categories/getPromo/:pathParam", retrievePromo);
 app.post("/categories/createCat/:pathParam", addCategory);
 // API D: Add promotion details
 app.post("/categories/addPromo/:pathParam", addPromotionData);
-
-// addCategory("Editor’s Favorite Housewares", categoryData).then((id) => {
-//   addPromotionData("Editor’s Favorite Housewares/" + id, promotionData);
-// });
-//addPromotionData("categories/Top Cosmetics", promotionData);
