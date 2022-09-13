@@ -5,7 +5,7 @@ exports.addPromotionData = async (req, res) => {
   const pathParam = arrPathParam.join("/");
   const promotionData = req.body;
   const category = db.doc(pathParam);
-  console.log(category);
+
   const catID = await category.get().then((doc) => doc.data().id);
   category
     .collection("Promotion Details")

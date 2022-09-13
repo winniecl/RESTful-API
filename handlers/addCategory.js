@@ -14,11 +14,10 @@ exports.addCategory = async (req, res) => {
     parentCat = db.collection(parentPath);
     const subCategory = await parentCat.collection(last).get();
     if (categoryData.subCategoryCount === 0 && subCategory.empty) {
-      console.log("yes");
       parentCat.update({
         subCategoryCount: admin.firestore.FieldValue.increment(1),
       });
-    } else console.log("no");
+    }
 
     const response = await newCat.add(categoryData);
     newCat.doc(response.id).update({
@@ -32,11 +31,10 @@ exports.addCategory = async (req, res) => {
     parentCat = db.doc(parentPath);
     const subCategory = await parentCat.collection(last).get();
     if (categoryData.subCategoryCount === 0 && subCategory.empty) {
-      console.log("yes2");
       parentCat.update({
         subCategoryCount: admin.firestore.FieldValue.increment(1),
       });
-    } else console.log("no2");
+    }
 
     const response = await newCat.add(categoryData);
     newCat.doc(response.id).update({
