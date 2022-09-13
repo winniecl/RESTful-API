@@ -24,6 +24,8 @@ exports.addCategory = async (req, res) => {
     newCat.doc(response.id).update({
       id: response.id,
     });
+    const newCollect = db.collection("listOfCollections").doc(collectionName);
+    newCollect.set({ name: collectionName });
     res.status(200).send(response.id);
   } else {
     newCat = db.collection(pathParam);
@@ -40,6 +42,9 @@ exports.addCategory = async (req, res) => {
     newCat.doc(response.id).update({
       id: response.id,
     });
+    const collectionName = categoryData.name;
+    const newCollect = db.collection("listOfCollections").doc(collectionName);
+    newCollect.set({ name: collectionName });
     res.status(200).send(response.id);
   }
 };
